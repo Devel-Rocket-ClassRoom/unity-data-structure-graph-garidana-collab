@@ -2,10 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GraphTest : MonoBehaviour
-<<<<<<< HEAD
 // 씬을 초기화하고 탐색을 실행 해보는 Test 코드
-=======
->>>>>>> 6547247e2ee2336baffba2de6d00bbb748536d52
 {
     public enum Algorithm
     {
@@ -36,16 +33,9 @@ public class GraphTest : MonoBehaviour
 
     private void Start()
     {
-<<<<<<< HEAD
-        // 맵 데이터 (하드코딩으로 테스트)
-        int[,] map = new int[5, 5]
-        {
-            { 1,-1,10,1,1},
-=======
         int[,] map = new int[5, 5]
         {
             { 1,-1,100,1,1},
->>>>>>> 6547247e2ee2336baffba2de6d00bbb748536d52
             { 1,1,1,-1,1},
             { 1,1,-1,1,1},
             { 1,-1,1,1,1},
@@ -76,11 +66,8 @@ public class GraphTest : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
 
     // [ContextMenu]는 Unity 에디터에서 우클릭으로 Search()함수를 실행하게 해줌
-=======
->>>>>>> 6547247e2ee2336baffba2de6d00bbb748536d52
     [ContextMenu("Search")]
     public void Search()
     {

@@ -36,11 +36,7 @@ public class GraphSearch
         
         while (stack.Count > 0)
         {
-<<<<<<< HEAD
-            // 마지막에 stack에 들어온 노르를 get
-=======
-            // 마지막에 stack에 들어온 놈을 get
->>>>>>> 6547247e2ee2336baffba2de6d00bbb748536d52
+            // 마지막에 stack에 들어온 노드를 get
             var currentNode = stack.Pop();
             path.Add(currentNode);
 
