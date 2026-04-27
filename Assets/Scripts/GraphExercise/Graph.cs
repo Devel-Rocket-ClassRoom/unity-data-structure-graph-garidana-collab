@@ -7,7 +7,6 @@ public class Graph
 
     public GraphNode[] nodes;
 
-    // 2D 배열을 받아 그래프 (노드 + 연결 관계)를 구성하는 Init 함수
     public void Init(int[,] grid)
     {
         row = grid.GetLength(0);

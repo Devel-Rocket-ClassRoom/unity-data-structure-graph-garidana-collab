@@ -1,8 +1,15 @@
 using System.Collections.Generic;
+<<<<<<< HEAD
 
 
 
 // 탐색 알고리즘의 실제 구현 코드
+=======
+using System.Reflection;
+using JetBrains.Annotations;
+using Unity.VisualScripting;
+
+>>>>>>> 6547247e2ee2336baffba2de6d00bbb748536d52
 public class GraphSearch 
 {
     private Graph _graph;
@@ -29,7 +36,11 @@ public class GraphSearch
         
         while (stack.Count > 0)
         {
+<<<<<<< HEAD
             // 마지막에 stack에 들어온 노르를 get
+=======
+            // 마지막에 stack에 들어온 놈을 get
+>>>>>>> 6547247e2ee2336baffba2de6d00bbb748536d52
             var currentNode = stack.Pop();
             path.Add(currentNode);
 
