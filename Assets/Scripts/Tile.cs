@@ -6,10 +6,10 @@ using UnityEngine;
 public enum Sdies
 {
     // B R L T
-    Bottom,  // 3
+    Top,  // 3
     Left,  // 2
     Right,  // 1
-    Top  // 0
+    Bottom  // 0
 }
 
 public class Tile

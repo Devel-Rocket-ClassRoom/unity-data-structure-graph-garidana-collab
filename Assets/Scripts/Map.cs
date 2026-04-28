@@ -96,13 +96,40 @@ public class Map
         }
     }
 
-    public bool CreateIsland(float erodePercent, int erodeIterations)
+    public bool CreateIsland
+    (
+        float erodePercent, 
+        int erodeIterations,
+        float lakePercent,
+        float treePercent,
+        float hillPercent,
+        float mountainPercent,
+        float townPercent,
+        float monsterPercent
+        //float castlePercent
+    )
     {
         for (int i = 0; i < erodeIterations; ++i)
         {
             DecorateTiles(CoastTiles, erodePercent, TileTypes.Empty);
         }
 
+        DecorateTiles(LandTiles, lakePercent, TileTypes.Empty);
+        DecorateTiles(LandTiles, treePercent, TileTypes.Tree);
+        DecorateTiles(LandTiles, hillPercent, TileTypes.Hills);
+        DecorateTiles(LandTiles, mountainPercent, TileTypes.Mountains);
+        DecorateTiles(LandTiles, townPercent, TileTypes.Towns);
+        DecorateTiles(LandTiles, monsterPercent, TileTypes.Monster);
+        //DecorateTiles(LandTiles, castlePercent, TileTypes.Castle);
+
+        var castleTile = LandTiles;
+        if (castleTile.Length > 0)
+        {
+            int index = Random.Range(0, castleTile.Length);
+            castleTile[index].autoTileId = (int)TileTypes.Castle;
+        }
         return true;
     }
+
+    
 }

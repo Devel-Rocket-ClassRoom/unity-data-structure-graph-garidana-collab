@@ -1,4 +1,5 @@
-using UnityEditor.ShaderGraph.Internal;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Stage : MonoBehaviour
@@ -11,6 +12,13 @@ public class Stage : MonoBehaviour
     [Range(0f, 0.9f)]
     public float erodePercent = 0.5f;
     public int erodeIterations = 2;
+    public float lakePercent = 0.1f;
+    public float treePercent = 0.1f;
+    public float hillPercent = 0.1f;
+    public float mountainPercent = 0.1f;
+    public float townPercent = 0.1f;
+    public float monsterPercent = 0.1f;
+    public float castlePercent = 0.1f;
 
     public Vector2 tileSize = new Vector2(16,16);
     public Sprite[] islandSprites;
@@ -33,7 +41,16 @@ public class Stage : MonoBehaviour
     {
         _map = new Map();
         _map.Init(mapHeight, mapWidth);
-        _map.CreateIsland(erodePercent, erodeIterations);
+        _map.CreateIsland(
+            erodePercent, 
+            erodeIterations,
+            lakePercent,
+            treePercent,
+            hillPercent,
+            mountainPercent,
+            townPercent,
+            monsterPercent
+            );
         CreateGrid();
     }
 
@@ -65,7 +82,7 @@ public class Stage : MonoBehaviour
             }
 
             position.x = 0;
-            position.y += tileSize.y;
+            position.y -= tileSize.y;
         }
     }
 
