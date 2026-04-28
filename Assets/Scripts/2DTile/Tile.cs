@@ -1,10 +1,8 @@
-using Unity.Properties;
-using Unity.VisualScripting;
-using UnityEngine;
 
 
-public enum Sdies
+public enum Sides
 {
+    None = -1,
     // B R L T
     Top,  // 3
     Left,  // 2
@@ -20,6 +18,8 @@ public class Tile
 
     // 전장의 안개 걷을지 말지 판단할 때 사용할 변수
     public bool isVisited = false;
+
+    public bool CanMove => autoTileId != (int)TileTypes.Empty;
 
     public void UpdateAutoTileId()
     {
