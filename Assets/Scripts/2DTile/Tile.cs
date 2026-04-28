@@ -1,5 +1,4 @@
 
-
 public enum Sides
 {
     None = -1,
@@ -15,6 +14,7 @@ public class Tile
     public int id;
     public Tile[] adjacents = new Tile[4];
     public int autoTileId;
+    //public int autoFowTileId;
 
     // 전장의 안개 걷을지 말지 판단할 때 사용할 변수
     public bool isVisited = false;
@@ -37,6 +37,13 @@ public class Tile
         }
     }
 
+    public void UpdateFowTileId()
+    {
+        
+    }
+
+
+    
     public void RemoveAdjacents (Tile tile)
     {
         for (int i = 0; i < adjacents.Length; ++i)

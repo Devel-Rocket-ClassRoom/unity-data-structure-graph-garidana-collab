@@ -26,6 +26,10 @@ public class Stage : MonoBehaviour
 
     public Vector2 tileSize = new Vector2(16,16);
     public Sprite[] islandSprites;
+    //public Sprite[] fowSprites;
+    //public Color fowColor = Color.black;
+
+    //private GameObject[] fowObjects;
 
     private Map _map;
 
@@ -124,6 +128,9 @@ public class Stage : MonoBehaviour
 
         var position = FirstTilePos;
 
+        // FOW 생성
+        //fowObjects = new GameObject[mapWidth * mapHeight];
+
         for (int i = 0; i < mapHeight; ++i)
         {
             for (int j = 0; j < mapWidth; ++j)
@@ -184,4 +191,5 @@ public class Stage : MonoBehaviour
     {
         return GetTilePos(tileId / mapWidth, tileId % mapWidth);
     }
+
 }

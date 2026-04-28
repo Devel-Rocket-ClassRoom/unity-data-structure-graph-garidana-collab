@@ -199,6 +199,8 @@ MonoBehaviour:
   - {fileID: 21300038, guid: 6dda2095192964815b349ac505a5e664, type: 3}
   - {fileID: 21300040, guid: 6dda2095192964815b349ac505a5e664, type: 3}
   - {fileID: 21300042, guid: 6dda2095192964815b349ac505a5e664, type: 3}
+  fowSprites: []
+  fowColor: {r: 0, g: 0, b: 0, a: 0}
   playerPrefab: {fileID: 6457470586011594801, guid: 26da5fccebe83de4da48a4971b7b1523, type: 3}
 --- !u!1 &1604925151
 GameObject:
