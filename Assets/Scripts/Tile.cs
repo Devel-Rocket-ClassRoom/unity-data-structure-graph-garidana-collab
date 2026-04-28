@@ -1,3 +1,5 @@
+using Unity.Properties;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -5,8 +7,8 @@ public enum Sdies
 {
     // B R L T
     Bottom,  // 3
-    Right,  // 2
-    Left,  // 1
+    Left,  // 2
+    Right,  // 1
     Top  // 0
 }
 
@@ -26,13 +28,41 @@ public class Tile
         {
             if (adjacents[i] != null)
             {
-                // 1000  0
-                // 0100  1
-                // 0010  2
-                // 0001  3
-                autoTileId |= 1 << adjacents.Length - 1 - i;
+                // 1000  T
+                // 0100  R
+                // 0010  L
+                // 0001  B
+                autoTileId |= 1 << i;
             }
         }
     }
 
+    public void RemoveAdjacents (Tile tile)
+    {
+        for (int i = 0; i < adjacents.Length; ++i)
+        {
+            if (adjacents[i] == null)
+            {
+                continue;
+            }
+            if (adjacents[i].id == tile.id)
+            {
+                adjacents[i] = null;
+                UpdateAutoTileId();
+                break;
+            } 
+        }
+    }
+
+    public void ClearAdjacents()
+    {
+        for ( int i = 0; i < adjacents.Length; ++i)
+        {
+            if (adjacents[i] == null)
+                continue;
+            adjacents[i].RemoveAdjacents(this);
+            adjacents[i] = null;
+        }
+        UpdateAutoTileId();
+    }
 }

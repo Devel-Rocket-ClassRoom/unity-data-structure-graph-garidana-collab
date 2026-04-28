@@ -1,8 +1,9 @@
-using System;
 using UnityEngine;
+using System.Linq;
+using TMPro;
 
 
-public enum TileType
+public enum TileTypes
 {
     Empty = -1,
     // 0 ~ 14 해안선 타일
@@ -20,6 +21,10 @@ public class Map
     public int cols = 0;
 
     public Tile[] tiles;
+
+    public Tile[] CoastTiles => tiles.Where(t => t.autoTileId >= 0 && t.autoTileId < (int)TileTypes.Grass).ToArray();
+    public Tile[] LandTiles => tiles.Where(t => t.autoTileId == (int)TileTypes.Grass).ToArray();
+
 
     public void Init(int rows, int cols)
     {
@@ -51,12 +56,12 @@ public class Map
 
                 if ((c - 1) >= 0)
                 {
-                    adjacents[(int)Sdies.Bottom] = tiles[index - 1];
+                    adjacents[(int)Sdies.Left] = tiles[index - 1];
                 }
 
                 if ((r + 1) < rows)
                 {
-                    adjacents[(int)Sdies.Left] = tiles[index + cols];
+                    adjacents[(int)Sdies.Bottom] = tiles[index + cols];
                 }
             }
         }
@@ -65,5 +70,39 @@ public class Map
         {
             tiles[i].UpdateAutoTileId();
         }
+    }
+
+    public void ShuffleTiles(Tile[] tiles)
+    {
+        for (int i = tiles.Length - 1; i > 0; --i)
+        {
+            int rand = Random.Range(0, i + 1);
+            (tiles[rand], tiles[i]) = (tiles[i], tiles[rand]);
+        }
+    }
+
+    public void DecorateTiles(Tile[] tiles, float percent, TileTypes tileType)
+    {
+        ShuffleTiles(tiles);
+        int total = Mathf.FloorToInt(tiles.Length * percent);
+        for (int i = 0; i < total; ++i)
+        {
+            if (tileType == TileTypes.Empty)
+            {
+                tiles[i].ClearAdjacents();
+            }
+
+            tiles[i].autoTileId = (int)tileType;
+        }
+    }
+
+    public bool CreateIsland(float erodePercent, int erodeIterations)
+    {
+        for (int i = 0; i < erodeIterations; ++i)
+        {
+            DecorateTiles(CoastTiles, erodePercent, TileTypes.Empty);
+        }
+
+        return true;
     }
 }
