@@ -166,15 +166,14 @@ MonoBehaviour:
   tilePrefabs: {fileID: 5363112036070958956, guid: d60bd276e71c4114bb8cbf999c5dff80, type: 3}
   mapWidth: 20
   mapHeight: 20
-  erodePercent: 0.5
-  erodeIterations: 2
-  lakePercent: 0.15
+  erodePercent: 0.3
+  erodeIteration: 2
+  lakePercent: 0.1
   treePercent: 0.1
   hillPercent: 0.1
-  mountainPercent: 0.1
+  moutainPercent: 0.1
   townPercent: 0.1
   monsterPercent: 0.1
-  castlePercent: 0.1
   tileSize: {x: 16, y: 16}
   islandSprites:
   - {fileID: 21300000, guid: 6dda2095192964815b349ac505a5e664, type: 3}
@@ -199,9 +198,25 @@ MonoBehaviour:
   - {fileID: 21300038, guid: 6dda2095192964815b349ac505a5e664, type: 3}
   - {fileID: 21300040, guid: 6dda2095192964815b349ac505a5e664, type: 3}
   - {fileID: 21300042, guid: 6dda2095192964815b349ac505a5e664, type: 3}
-  fowSprites: []
-  fowColor: {r: 0, g: 0, b: 0, a: 0}
+  fowSprites:
+  - {fileID: 21300000, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
+  - {fileID: 21300002, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
+  - {fileID: 21300004, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
+  - {fileID: 21300006, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
+  - {fileID: 21300008, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
+  - {fileID: 21300010, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
+  - {fileID: 21300012, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
+  - {fileID: 21300014, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
+  - {fileID: 21300016, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
+  - {fileID: 21300018, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
+  - {fileID: 21300020, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
+  - {fileID: 21300022, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
+  - {fileID: 21300024, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
+  - {fileID: 21300026, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
+  - {fileID: 21300028, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
+  - {fileID: 21300030, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
   playerPrefab: {fileID: 6457470586011594801, guid: 26da5fccebe83de4da48a4971b7b1523, type: 3}
+  visitRadius: 3
 --- !u!1 &1604925151
 GameObject:
   m_ObjectHideFlags: 0
