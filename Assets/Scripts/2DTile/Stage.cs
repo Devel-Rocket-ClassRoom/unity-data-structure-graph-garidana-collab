@@ -1,6 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+// 유니티에서 실제로 씬을 관리하는 클래스
 public class Stage : MonoBehaviour
 {
     public GameObject tilePrefabs;
@@ -62,10 +65,26 @@ public class Stage : MonoBehaviour
     }
 
     private void Update()
-    {
+    {   
+        //스페이스로 스테이지 리셋
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ResetStage();
+        }
+        
+        // 마우스 포인터를 따라서 초록색으로 해당 타일 표시
+        if (tileObjs != null)
+        {
+            int currentTileId = ScreenPosToTileId(Input.mousePosition);
+            if (prevTileId != currentTileId)
+            {
+                tileObjs[currentTileId].GetComponent<SpriteRenderer>().color = Color.green;
+                if (prevTileId >= 0 && prevTileId < tileObjs.Length)
+                {
+                    tileObjs[prevTileId].GetComponent<SpriteRenderer>().color = Color.white;
+                }
+                prevTileId = currentTileId;
+            }
         }
     }
 
@@ -73,12 +92,31 @@ public class Stage : MonoBehaviour
     {
         map = new Map();
         map.Init(mapHeight, mapWidth);
-        map.CreateIsland(erodePercent, erodeIteration, lakePercent,
+        bool success = false;
+        do
+        {
+            success = map.CreateIsland(erodePercent, erodeIteration, lakePercent,
             treePercent, hillPercent, moutainPercent, townPercent, monsterPercent);
-        
+        }
+        while (!success);
         CreateGrid();
-
+        DrawPath(map.PathFindingAStar(map.startTile, map.castleTile));
         CreatePlayer();
+    }
+
+    public void DrawPath(List<Tile> path)
+    {
+        foreach (var tile in tileObjs)
+        {
+            tile.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+
+        for (int i = 0; i < path.Count; i++)
+        {
+            float t = (float)i / (path.Count - 1);
+            tileObjs[path[i].id].GetComponent<SpriteRenderer>().color = 
+                Color.Lerp(Color.green, Color.red, t);
+        }
     }
 
     private void CreatePlayer()

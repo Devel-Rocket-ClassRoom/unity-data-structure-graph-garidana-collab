@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+// 플레이어 이동 관련 클래스
 public class PlayerMovemnet : MonoBehaviour
 {
     private Stage stage;
@@ -24,32 +25,45 @@ public class PlayerMovemnet : MonoBehaviour
 
     private void Update()
     {
-        var direction = Sides.None;
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            direction = Sides.Top;
-        }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            direction = Sides.Bottom;
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            direction = Sides.Right;
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            direction = Sides.Left;
-        }
 
-        if (direction != Sides.None)
+        if (Input.GetMouseButtonDown(0))
         {
-            var targetTile = stage.Map.tiles[currentTileId].adjacents[(int)direction];
+
+            var clickTileId = stage.ScreenPosToTileId(Input.mousePosition);
+            var targetTile = stage.Map.tiles[clickTileId];
             if (targetTile != null && targetTile.CanMove)
             {
                 MoveTo(targetTile.id);
             }
         }
+        // var direction = Sides.None;
+        // if (Input.GetKeyDown(KeyCode.W))
+        // {
+        //     direction = Sides.Top;
+        // }
+        // else if (Input.GetKeyDown(KeyCode.S))
+        // {
+        //     direction = Sides.Bottom;
+        // }
+        // else if (Input.GetKeyDown(KeyCode.D))
+        // {
+        //     direction = Sides.Right;
+        // }
+        // else if (Input.GetKeyDown(KeyCode.A))
+        // {
+        //     direction = Sides.Left;
+        // }
+
+        // if (direction != Sides.None)
+        // {
+        //     var targetTile = stage.Map.tiles[currentTileId].adjacents[(int)direction];
+        //     if (targetTile != null && targetTile.CanMove)
+        //     {
+        //         MoveTo(targetTile.id);
+        //     }
+        // }
+
+
     }
 
     public void Warp(int tileId)
@@ -68,41 +82,74 @@ public class PlayerMovemnet : MonoBehaviour
         stage.OnTileVisited(currentTileId);
     }
 
+
+
     public void MoveTo(int tileId)
     {
-        if (isMoving)
-            return;
-
         targetTileId = tileId;
-        if (coMove != null)
+        if (!isMoving)
         {
-            StopCoroutine(coMove);
-            coMove = null;
+            coMove = StartCoroutine(CoMove());
         }
-        coMove = StartCoroutine(CoMove());
     }
 
     private IEnumerator CoMove()
     {
         isMoving = true;
         animator.speed = 1f;
-        var startPos = transform.position;
-        var endPos = stage.GetTilePos(targetTileId);
-        var duration =  Vector3.Distance(startPos, endPos) / moveSpeed;
+        int currentTargetTileId = targetTileId;
 
-        var t = 0f;
-        while (t < 1f)
+        var path = stage.Map.PathFindingAStar(currentTileId, currentTargetTileId);
+        if (path.Count == 0)
         {
-            t += Time.deltaTime / duration;
-            transform.position = Vector3.Lerp(startPos, endPos, t);
-            yield return null;
+            isMoving = false;
+            animator.speed= 0f;
+            coMove = null;
+            yield break;
         }
-        transform.position = endPos;
-        animator.speed = 0f;
+        stage.DrawPath(path);
 
-        currentTileId = targetTileId;
-        targetTileId = -1;
-        stage.OnTileVisited(currentTileId);
+        var pathIndex = 1;
+        while (pathIndex < path.Count)
+        {
+            if (currentTargetTileId != targetTileId)
+            {
+                currentTargetTileId = targetTileId;
+                path = stage.Map.PathFindingAStar(currentTileId, currentTargetTileId);
+                if (path.Count == 0)
+                {
+                    isMoving = false;
+                    animator.speed= 0f;
+                    coMove = null;
+                    yield break;
+                }
+                stage.DrawPath(path);
+                pathIndex = 1;
+            }
+            
+            var startPos = transform.position;
+            var endPos = stage.GetTilePos(path[pathIndex].id);
+            var duration =  Vector3.Distance(startPos, endPos) / moveSpeed;
+            var t = 0f;
+
+            while (t < 1f)
+            {
+                t += Time.deltaTime / duration;
+                transform.position = Vector3.Lerp(startPos, endPos, t);
+                yield return null;
+            }
+            transform.position = endPos;
+            
+
+            currentTileId = targetTileId;
+            targetTileId = -1;
+            stage.OnTileVisited(currentTileId);
+            ++pathIndex;
+        }
+        animator.speed = 0f;
+        // currentTileId = targetTileId;
+        // targetTileId = -1;
+        // stage.OnTileVisited(currentTileId);
         isMoving = false;
         coMove = null;
     }

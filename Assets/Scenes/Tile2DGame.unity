@@ -216,7 +216,7 @@ MonoBehaviour:
   - {fileID: 21300028, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
   - {fileID: 21300030, guid: dfa5f63634ba24c06a7c899467e4f9f3, type: 3}
   playerPrefab: {fileID: 6457470586011594801, guid: 26da5fccebe83de4da48a4971b7b1523, type: 3}
-  visitRadius: 3
+  visitRadius: 50
 --- !u!1 &1604925151
 GameObject:
   m_ObjectHideFlags: 0

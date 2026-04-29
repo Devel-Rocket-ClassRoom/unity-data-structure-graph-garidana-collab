@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 public enum TileTypes
 {
@@ -14,6 +15,7 @@ public enum TileTypes
     Monster,
 }
 
+// 맵 생성및 관리 클래스
 public class Map
 {
     public int rows = 0;
@@ -122,6 +124,99 @@ public class Map
         startTile = towns[0]; 
         castleTile = towns[1];
         castleTile.autoTileId = (int)TileTypes.Castle;
-        return true;
+
+        var path = PathFindingAStar(startTile, castleTile);
+        return path.Count > 0;
+
+    }
+
+    private int Heuristic(Tile a, Tile b)
+    {
+        int ax = a.id % cols;
+        int ay = a.id / cols;
+        int bx = b.id % cols;
+        int by = b.id / cols;
+        return Mathf.Abs(ax - bx) + Mathf.Abs(ay - by);
+    }
+
+    public List<Tile> PathFindingAStar (int startTile, int goalTile)
+    {
+        return PathFindingAStar(tiles[startTile], tiles[goalTile]);
+    }
+
+    public List<Tile> PathFindingAStar(Tile startTile, Tile goalTile)
+    {
+        List<Tile> path = new();
+         // 빈 경로 초기화
+        path.Clear();
+        foreach (Tile tile in tiles)
+        {
+            tile.ClearPreviousTile();
+        }
+
+        // 방문한 노드 추적을 위한 hashset 추가
+        var visited = new HashSet<Tile>();
+        // 우선순위 큐 생성 (노드 <T>와 우선순위<int>를 담고있는 큐)
+        var priorityQueue = new PriorityQueue<Tile, int>();
+        var distances = new int[tiles.Length];
+
+        for (int i = 0; i < distances.Length; ++i)
+        {
+            distances[i] = int.MaxValue;
+        }
+
+        distances[startTile.id] = 0;
+        priorityQueue.Enqueue(startTile, 0);
+        // visited.Add(startNode);
+
+        bool success = false;
+        // 우선순위의 큐가 빌때까지 반복
+        while (priorityQueue.Count > 0)
+        {
+            var currentNode = priorityQueue.Dequeue();
+            if (visited.Contains(currentNode))
+            {
+                continue;
+            }
+
+            if (currentNode == goalTile)
+            {
+                success = true;
+                break;
+            }
+
+            visited.Add(currentNode);
+
+            foreach (var adjacent in currentNode.adjacents)
+            {
+                if ( adjacent == null || !adjacent.CanMove || visited.Contains(adjacent))
+                {
+                    continue;
+                }
+
+                var newDistance = distances[currentNode.id] + adjacent.Weight;
+                if (newDistance < distances[adjacent.id])
+                {
+                    distances[adjacent.id] = newDistance;
+                    priorityQueue.Enqueue(adjacent, distances[adjacent.id]);
+                    adjacent.previousTile = currentNode;
+                }
+                // visited.Add(adjacent);
+            }
+        }
+
+        if (success)
+        {
+            Tile step = goalTile;
+            while (step != null)
+            {
+                path.Add(step);
+                step = step.previousTile;
+            }
+            path.Reverse();
+        }
+        return path;
+        
+        
     }
 }
