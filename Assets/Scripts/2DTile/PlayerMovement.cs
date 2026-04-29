@@ -82,8 +82,6 @@ public class PlayerMovemnet : MonoBehaviour
         stage.OnTileVisited(currentTileId);
     }
 
-
-
     public void MoveTo(int tileId)
     {
         targetTileId = tileId;
@@ -139,17 +137,14 @@ public class PlayerMovemnet : MonoBehaviour
                 yield return null;
             }
             transform.position = endPos;
-            
-
-            currentTileId = targetTileId;
-            targetTileId = -1;
+            currentTileId = path[pathIndex].id;
             stage.OnTileVisited(currentTileId);
             ++pathIndex;
         }
-        animator.speed = 0f;
         // currentTileId = targetTileId;
         // targetTileId = -1;
         // stage.OnTileVisited(currentTileId);
+        animator.speed = 0f;
         isMoving = false;
         coMove = null;
     }

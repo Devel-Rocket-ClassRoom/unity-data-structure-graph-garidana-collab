@@ -72,20 +72,20 @@ public class Stage : MonoBehaviour
             ResetStage();
         }
         
-        // 마우스 포인터를 따라서 초록색으로 해당 타일 표시
-        if (tileObjs != null)
-        {
-            int currentTileId = ScreenPosToTileId(Input.mousePosition);
-            if (prevTileId != currentTileId)
-            {
-                tileObjs[currentTileId].GetComponent<SpriteRenderer>().color = Color.green;
-                if (prevTileId >= 0 && prevTileId < tileObjs.Length)
-                {
-                    tileObjs[prevTileId].GetComponent<SpriteRenderer>().color = Color.white;
-                }
-                prevTileId = currentTileId;
-            }
-        }
+        //마우스 포인터를 따라서 초록색으로 해당 타일 표시
+        // if (tileObjs != null)
+        // {
+        //     int currentTileId = ScreenPosToTileId(Input.mousePosition);
+        //     if (prevTileId != currentTileId)
+        //     {
+        //         tileObjs[currentTileId].GetComponent<SpriteRenderer>().color = Color.green;
+        //         if (prevTileId >= 0 && prevTileId < tileObjs.Length)
+        //         {
+        //             tileObjs[prevTileId].GetComponent<SpriteRenderer>().color = Color.white;
+        //         }
+        //         prevTileId = currentTileId;
+        //     }
+        // }
     }
 
     private void ResetStage()

@@ -168,7 +168,7 @@ MonoBehaviour:
   mapHeight: 20
   erodePercent: 0.3
   erodeIteration: 2
-  lakePercent: 0.1
+  lakePercent: 0.03
   treePercent: 0.1
   hillPercent: 0.1
   moutainPercent: 0.1

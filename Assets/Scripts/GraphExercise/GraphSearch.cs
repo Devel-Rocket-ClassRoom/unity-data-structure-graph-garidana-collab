@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class GraphSearch 
 {
@@ -240,6 +242,17 @@ public class GraphSearch
      
     }
 
+    private int Heuristic (GraphNode a, GraphNode b)
+    {
+        int ax = a.id % _graph.col;
+        int ay = a.id / _graph.col;
+
+        int bx = b.id % _graph.col;
+        int by = b.id / _graph.col;
+
+        return Mathf.Abs(ax - bx) + Mathf.Abs(ay - by);
+    }
+
     public bool AStar(GraphNode startNode, GraphNode endNode)
     {
          // 빈 경로 초기화
@@ -258,7 +271,7 @@ public class GraphSearch
         }
 
         distances[startNode.id] = 0;
-        priorityQueue.Enqueue(startNode, 0);
+        priorityQueue.Enqueue(startNode, distances[startNode.id] + Heuristic(startNode, endNode));
         // visited.Add(startNode);
 
         bool success = false;
@@ -290,7 +303,7 @@ public class GraphSearch
                 if (newDistance < distances[adjacent.id])
                 {
                     distances[adjacent.id] = newDistance;
-                    priorityQueue.Enqueue(adjacent, distances[adjacent.id]);
+                    priorityQueue.Enqueue(adjacent, distances[adjacent.id] + Heuristic (adjacent, endNode));
                     adjacent.previous = currentNode;
                 }
                 // visited.Add(adjacent);

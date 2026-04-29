@@ -134,8 +134,10 @@ public class Map
     {
         int ax = a.id % cols;
         int ay = a.id / cols;
+
         int bx = b.id % cols;
         int by = b.id / cols;
+
         return Mathf.Abs(ax - bx) + Mathf.Abs(ay - by);
     }
 
@@ -166,7 +168,7 @@ public class Map
         }
 
         distances[startTile.id] = 0;
-        priorityQueue.Enqueue(startTile, 0);
+        priorityQueue.Enqueue(startTile, distances[startTile.id] + Heuristic(startTile, goalTile));
         // visited.Add(startNode);
 
         bool success = false;
@@ -198,7 +200,7 @@ public class Map
                 if (newDistance < distances[adjacent.id])
                 {
                     distances[adjacent.id] = newDistance;
-                    priorityQueue.Enqueue(adjacent, distances[adjacent.id]);
+                    priorityQueue.Enqueue(adjacent, distances[adjacent.id] + Heuristic(adjacent, goalTile));
                     adjacent.previousTile = currentNode;
                 }
                 // visited.Add(adjacent);
@@ -216,7 +218,5 @@ public class Map
             path.Reverse();
         }
         return path;
-        
-        
     }
 }
